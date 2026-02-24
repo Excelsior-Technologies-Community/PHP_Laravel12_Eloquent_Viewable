@@ -1,8 +1,14 @@
 #  PHP_Laravel12_Eloquent_Viewable
 
-![Laravel](https://img.shields.io/badge/Laravel-12-red)
-![PHP](https://img.shields.io/badge/PHP-8%2B-blue)
-![MySQL](https://img.shields.io/badge/Database-MySQL-orange)
+<p align="center">
+<a href="#"><img src="https://img.shields.io/badge/Laravel-12-red?logo=laravel" alt="Laravel Version"></a>
+<a href="#"><img src="https://img.shields.io/badge/PHP-8.x-blue?logo=php" alt="PHP Version"></a>
+<a href="#"><img src="https://img.shields.io/badge/MySQL-Database-orange?logo=mysql" alt="Database"></a>
+<a href="#"><img src="https://img.shields.io/badge/Eloquent-ORM-success" alt="Eloquent ORM"></a>
+<a href="#"><img src="https://img.shields.io/badge/Eloquent--Viewable-View%20Counter-green" alt="View Counter"></a>
+<a href="#"><img src="https://img.shields.io/badge/Blade-Template-yellow?logo=laravel" alt="Blade"></a>
+<a href="#"><img src="https://img.shields.io/badge/CRUD-Application-purple" alt="CRUD"></a>
+</p>
 
 A **Laravel 12 CRUD application** that manages products and automatically counts how many times each product page is viewed using the **Eloquent Viewable** package.
 
