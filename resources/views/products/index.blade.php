@@ -1,144 +1,210 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<title>Products</title>
 
-<style>
+    <meta charset="UTF-8">
 
-body{
-    font-family: Arial, sans-serif;
-    background:#eef2f7;
-    margin:0;
-    padding:40px;
-}
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-/* CONTAINER */
-.container{
-    max-width:900px;
-    margin:auto;
-    background:white;
-    padding:30px;
-    border-radius:12px;
-    box-shadow:0 8px 25px rgba(0,0,0,0.08);
-}
+    <title>Products</title>
 
-h2{
-    text-align:center;
-    margin-bottom:25px;
-}
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
 
-/* ADD BUTTON */
-.add-btn{
-    background:#22c55e;
-    color:white;
-    padding:10px 16px;
-    border-radius:8px;
-    text-decoration:none;
-    font-weight:bold;
-}
-
-.add-btn:hover{
-    background:#16a34a;
-}
-
-/* TABLE */
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
-}
-
-th{
-    background:#111827;
-    color:white;
-    padding:12px;
-}
-
-td{
-    padding:12px;
-    text-align:center;
-    border-bottom:1px solid #eee;
-}
-
-tr:hover{
-    background:#f9fafb;
-}
-
-/* BUTTONS */
-.btn{
-    padding:6px 12px;
-    border-radius:6px;
-    color:white;
-    text-decoration:none;
-    font-size:14px;
-    border:none;
-    cursor:pointer;
-}
-
-.view{ background:#2563eb; }
-.edit{ background:#f59e0b; }
-.delete{ background:#dc2626; }
-
-.view:hover{ background:#1d4ed8; }
-.edit:hover{ background:#d97706; }
-.delete:hover{ background:#b91c1c; }
-
-.views{
-    font-weight:bold;
-    color:#16a34a;
-}
-
-</style>
 </head>
 
-<body>
+<body class="bg-light">
 
-<div class="container">
 
-<h2>Product List</h2>
+<nav class="navbar navbar-dark bg-dark">
 
-<a href="{{ route('products.create') }}" class="add-btn">+ Add Product</a>
+    <div class="container">
 
-<table>
-<tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Views</th>
-    <th>Actions</th>
-</tr>
+        <span class="navbar-brand fw-bold">
+            Eloquent Viewable
+        </span>
 
-@foreach($products as $product)
-<tr>
-    <td>{{ $product->id }}</td>
-    <td>{{ $product->name }}</td>
-    <td>₹{{ $product->price }}</td>
+        <div>
 
-    <td class="views">
-        👁 {{ views($product)->count() }}
-    </td>
+            <a href="{{ route('analytics.dashboard') }}"
+               class="btn btn-outline-light btn-sm">
+                📊 Analytics
+            </a>
 
-    <td>
-        <a class="btn view"
-           href="{{ route('products.show',$product->id) }}">View</a>
+            <a href="{{ route('analytics.products') }}"
+               class="btn btn-outline-light btn-sm">
+                🔎 Search & Filter
+            </a>
 
-        <a class="btn edit"
-           href="{{ route('products.edit',$product->id) }}">Edit</a>
+            <a href="{{ route('analytics.history') }}"
+               class="btn btn-outline-light btn-sm">
+                📈 View History
+            </a>
 
-        <form action="{{ route('products.destroy',$product->id) }}"
-              method="POST"
-              style="display:inline;">
-            @csrf
-            @method('DELETE')
-            <button class="btn delete">Delete</button>
-        </form>
-    </td>
-</tr>
-@endforeach
+        </div>
 
-</table>
+    </div>
+
+</nav>
+
+
+<div class="container py-5">
+
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+
+                    <h2 class="fw-bold mb-1">
+                        Product List
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Products with Eloquent Viewable tracking
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ route('products.create') }}"
+                    class="btn btn-success">
+
+                    + Add Product
+
+                </a>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Name</th>
+
+                        <th>Price</th>
+
+                        <th>Views</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    @forelse($products as $product)
+
+                        <tr>
+
+                            <td>
+                                {{ $product->id }}
+                            </td>
+
+                            <td class="fw-semibold">
+                                {{ $product->name }}
+                            </td>
+
+                            <td>
+                                ₹{{ number_format($product->price, 2) }}
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+
+                                    👁 {{ views($product)->count() }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <a
+                                    class="btn btn-sm btn-primary"
+                                    href="{{ route('products.show', $product->id) }}">
+
+                                    View
+
+                                </a>
+
+
+                                <a
+                                    class="btn btn-sm btn-warning"
+                                    href="{{ route('products.edit', $product->id) }}">
+
+                                    Edit
+
+                                </a>
+
+
+                                <form
+                                    action="{{ route('products.destroy', $product->id) }}"
+                                    method="POST"
+                                    style="display:inline;">
+
+                                    @csrf
+
+                                    @method('DELETE')
+
+                                    <button
+                                        class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Are you sure you want to delete this product?')">
+
+                                        Delete
+
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td colspan="5"
+                                class="text-center text-muted py-4">
+
+                                No products found.
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
+
 
 </body>
 </html>
