@@ -1,80 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Product Details</title>
-
-<style>
-
-body{
-    font-family: Arial, sans-serif;
-    background:#eef2f7;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin:0;
-}
-
-/* CARD */
-.card{
-    width:420px;
-    background:white;
-    padding:35px;
-    border-radius:12px;
-    box-shadow:0 8px 25px rgba(0,0,0,0.08);
-    text-align:center;
-}
-
-h2{
-    margin-bottom:10px;
-}
-
-.price{
-    font-size:20px;
-    margin-bottom:15px;
-}
-
-.views{
-    font-size:22px;
-    font-weight:bold;
-    color:#16a34a;
-    margin:20px 0;
-}
-
-/* BUTTON */
-.back{
-    display:inline-block;
-    margin-top:15px;
-    padding:10px 18px;
-    background:#2563eb;
-    color:white;
-    border-radius:8px;
-    text-decoration:none;
-    font-weight:bold;
-}
-
-.back:hover{
-    background:#1d4ed8;
-}
-
-</style>
+<title>Product Details - {{ $product->name }}</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
 
-<div class="card">
+<div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-100">
 
-<h2>{{ $product->name }}</h2>
+    @if(session('success'))
+        <div class="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg text-sm">
+            {{ session('success') }}
+        </div>
+    @endif
 
-<p class="price">Price: ₹{{ $product->price }}</p>
+    @if(isset($isBot) && $isBot)
+        <div class="mb-4 p-3 bg-amber-100 border border-amber-400 text-amber-800 rounded-lg text-xs font-semibold">
+            🤖 View Rate-Limited (Potential Bot / Rapid Refresh Detected)
+        </div>
+    @endif
 
-<div class="views">
-    👁 {{ views($product)->count() }} Views
-</div>
+    <h2 class="text-3xl font-bold text-gray-800 mb-2">{{ $product->name }}</h2>
 
-<a class="back" href="{{ route('products.index') }}">
-    ← Back to Products
-</a>
+    <p class="text-xl font-semibold text-indigo-600 mb-4">Price: ₹{{ number_format($product->price) }}</p>
+
+    <div class="my-6 p-4 bg-green-50 rounded-xl border border-green-200">
+        <div class="text-3xl font-bold text-green-700">
+            👁 {{ views($product)->count() }}
+        </div>
+        <div class="text-xs text-green-600 font-medium uppercase tracking-wider mt-1">Total Views Tracked</div>
+    </div>
+
+    {{-- CTA ACTION BUTTONS --}}
+    <div class="space-y-3 mb-6">
+        <form action="{{ route('products.action', $product->id) }}" method="POST">
+            @csrf
+            <input type="hidden" name="action_type" value="add_to_cart">
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl transition shadow">
+                🛒 Add to Cart
+            </button>
+        </form>
+
+        <form action="{{ route('products.action', $product->id) }}" method="POST">
+            @csrf
+            <input type="hidden" name="action_type" value="buy_now">
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition shadow">
+                ⚡ Buy Now
+            </button>
+        </form>
+    </div>
+
+    <a href="{{ route('products.index') }}" class="inline-block text-sm font-semibold text-gray-600 hover:text-gray-900 underline">
+        ← Back to Products
+    </a>
 
 </div>
 

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use CyrildeWit\EloquentViewable\Contracts\Viewable;
 use CyrildeWit\EloquentViewable\InteractsWithViews;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model implements Viewable
 {
@@ -12,6 +12,11 @@ class Product extends Model implements Viewable
 
     protected $fillable = [
         'name',
-        'price'
+        'price',
     ];
+
+    public function actions()
+    {
+        return $this->hasMany(ProductAction::class);
+    }
 }
