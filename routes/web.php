@@ -11,6 +11,10 @@ use App\Http\Controllers\ViewAnalyticsController;
 |--------------------------------------------------------------------------
 */
 
+Route::get('/', function () {
+    return redirect('/products');
+});
+
 Route::get('/products', [ProductController::class, 'index'])
     ->name('products.index');
 
@@ -31,6 +35,9 @@ Route::put('/products/update/{id}', [ProductController::class, 'update'])
 
 Route::delete('/products/delete/{id}', [ProductController::class, 'destroy'])
     ->name('products.destroy');
+
+Route::post('/products/{id}/action', [ProductController::class, 'recordAction'])
+    ->name('products.action');
 
 
 /*
